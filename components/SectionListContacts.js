@@ -1,10 +1,9 @@
-import { View, Text } from "react-native";
+import { View, Text, SectionList } from "react-native";
 import React from "react";
-import { SectionList } from "react-native-web";
 import Row from "./Row";
 import PropTypes from "prop-types";
 
-const SectionListContacts = ({ contacts }) => {
+const SectionListContacts = ({ contacts, onSelectContact }) => {
   const contactsByLetter = contacts.reduce((obj, contact) => {
     const firstLetter = contact.name[0].toUpperCase();
     return {
@@ -13,6 +12,10 @@ const SectionListContacts = ({ contacts }) => {
     };
   }, {});
 
+  const renderItem = ({ item }) => (
+    <Row {...item} onSelectContact={onSelectContact} />
+  );
+
   const sections = Object.keys(contactsByLetter)
     .sort()
     .map((letter) => ({
@@ -20,11 +23,17 @@ const SectionListContacts = ({ contacts }) => {
       data: contactsByLetter[letter],
     }));
 
-  const renderSectionHeader = (obj) => <Text>{obj.section.title}</Text>;
+  const renderSectionHeader = (obj) => (
+    <View>
+      <Text style={{ padding: 5 }}>{obj.section.title}</Text>
+    </View>
+  );
 
   return (
+    //
     <SectionList
-      renderItem={(obj) => <Row {...obj.item} />}
+      // renderItem={(obj) => <Row {...obj.item} />}
+      renderItem={renderItem}
       renderSectionHeader={renderSectionHeader}
       //   sections={[
       //     {
