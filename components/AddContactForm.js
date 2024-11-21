@@ -1,16 +1,16 @@
 import {
-  View,
-  Text,
   TextInput,
   Button,
   StyleSheet,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-// import { TextInput } from "react-native-web";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const AddContactForm = ({ onSubmit }) => {
+  const navigation = useNavigation();
   const [state, setState] = useState({
     name: "",
     phone: "",
@@ -49,15 +49,18 @@ const AddContactForm = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    // console.log(state);
+    console.log(contacts);
     // onSubmit({name:state.name, phone:state.phone})
     // onSubmit({...state})
-
     onSubmit(state);
+    navigation.navigate("ContactList");
   };
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <TextInput
         placeholder="Name"
         style={styles.input}
@@ -72,7 +75,7 @@ const AddContactForm = ({ onSubmit }) => {
         keyboardType="numeric"
       />
       <Button
-        title="Submit"
+        title="Add"
         style={styles.button}
         onPress={handleSubmit}
         disabled={!isFormValid}

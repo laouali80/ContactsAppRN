@@ -1,21 +1,17 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  ActivityIndicator,
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { fetchUsers } from "./components/api";
+import { createStaticNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AddContactScreen from "./screens/AddContactScreen";
+import ContactListScreen from "./screens/ContactListScreen";
 import { useEffect, useState } from "react";
-import SectionListContacts from "./components/SectionListContacts";
-import AddContactForm from "./components/AddContactForm";
+import { fetchUsers } from "./components/api";
+import SwitchNavigation from "./navigations/SwitchNavigation";
+import StackNavigation from "./navigations/StackNavigation";
+import ComposingNavigation from "./navigations/ComposingNavigation";
+import TabNavigation from "./navigations/TabNavigation";
 
 export default function App() {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
-  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -34,40 +30,36 @@ export default function App() {
 
   const addContact = (newContact) => {
     setContacts((prevContacts) => [...prevContacts, newContact]);
-    setShowForm(false);
   };
 
-  const toggleShowForm = () => {
-    setShowForm(true);
-  };
-  // console.log("herer", userContacts);
-  return (
-    <>
-      {showForm ? (
-        // <Text>test</Text>
-        <AddContactForm onSubmit={addContact} />
-      ) : loading ? (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      ) : (
-        <View>
-          <Button title="Add contact" onPress={toggleShowForm} />
-          <SectionListContacts contacts={contacts} />
-        </View>
-      )}
-      <StatusBar style="auto" />
-    </>
-  );
+  // const SwitchNavigation = createNativeStackNavigator({
+  //   initialRouteName: "ContactList",
+  //   screens: {
+  //     AddContact: {
+  //       screen: AddContactScreen,
+
+  //       initialParams: {
+  //         handleSubmit: addContact,
+  //       },
+  //     },
+  //     ContactList: {
+  //       screen: ContactListScreen,
+  //       options: {
+  //         headerShown: false,
+  //       },
+  //       initialParams: {
+  //         contacts: contacts,
+  //         loading: loading,
+  //       },
+  //     },
+  //   },
+  // });
+
+  // const AppNavigator = createStaticNavigation(SwitchNavigation);
+  // const AppNavigator = SwitchNavigation(addContact, contacts, loading);
+  // const AppNavigator = StackNavigation(addContact, contacts, loading);
+  // const AppNavigator = ComposingNavigation(addContact, contacts, loading);
+  const AppNavigator = TabNavigation(addContact, contacts, loading);
+
+  return <AppNavigator />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
