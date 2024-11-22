@@ -32,7 +32,7 @@ const ContactListScreen = ({ route }) => {
     navigation.navigate("AddContact");
   };
 
-  // console.log(navigation);
+  // console.log("hereeeeeeeeee", contacts);
   return (
     <>
       {loading ? (

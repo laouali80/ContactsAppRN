@@ -1,6 +1,7 @@
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { login } from "../components/api";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -9,26 +10,47 @@ const LoginScreen = () => {
     username: "",
     password: "",
   });
+  const [err, setErr] = useState("");
 
   const handleUpdUsename = (username) => {
-    setState({ username });
+    setState((prevState) => ({ ...prevState, username }));
     // setState({...state,username})
   };
   const handleUpdPassword = (password) => {
-    setState({ password });
+    setState((prevState) => ({ ...prevState, password }));
     // setState({ ...state, username });
   };
 
-  const loginValidation = () => {
-    navigation.navigate("Main");
-
+  const loginValidation = async () => {
+    // try {
+    //   const succcess = await login(state.username, state.password);
+    //   navigation.navigate("Main");
+    // } catch (err) {
+    //   const errMessage = err.message;
+    //   setErr(errMessage);
+    // }
+    const users = {
+      username: "password",
+    };
+    if (!state.username || !state.password) {
+      setErr("Missing username or Password");
+    } else if (!users[state.username]) {
+      // console.log("i am");
+      setErr("User does not exist");
+    } else if (users[state.username] !== state.password) {
+      setErr("Incorrect password");
+    } else {
+      navigation.navigate("Main");
+      return;
+    }
+    // console.log("here", err);
     // we can explicitly navigate to any screen of Main
     // navigation.navigate('AddContact')
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.error}>error</Text>
+      <Text style={styles.error}>{err}</Text>
       <TextInput
         placeholder="username"
         autoCapitalize="none"
@@ -69,12 +91,10 @@ const styles = StyleSheet.create({
   buttton: {
     margin: 50,
   },
-  text: {
-    textAlign: "center",
-  },
   error: {
     textAlign: "center",
     color: "red",
+    margin: 5,
   },
 });
 

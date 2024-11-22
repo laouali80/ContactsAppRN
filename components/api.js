@@ -10,3 +10,18 @@ export const fetchUsers = async () => {
   //   return results.map(contact => processContact(contact));
   return results.map(processContact);
 };
+
+export const login = async (username, password) => {
+  const response = await fetch("http://localhost:5555", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (response.ok) {
+    return true;
+  }
+  // const { results } = await response.json();
+  const errMessage = await response.text();
+  throw new Error(errMessage);
+};
