@@ -12,16 +12,16 @@ export const fetchUsers = async () => {
 };
 
 export const login = async (username, password) => {
-  const response = await fetch("http://localhost:5555", {
+  const response = await fetch("http://localhost:5555/login", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
   });
 
   if (response.ok) {
     return true;
   }
-  // const { results } = await response.json();
-  const errMessage = await response.text();
-  throw new Error(errMessage);
+  const errMessage = await response.json();
+  // console.log(errMessage);
+  throw new Error(errMessage.detail);
 };

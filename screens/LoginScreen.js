@@ -22,27 +22,28 @@ const LoginScreen = () => {
   };
 
   const loginValidation = async () => {
-    // try {
-    //   const succcess = await login(state.username, state.password);
-    //   navigation.navigate("Main");
-    // } catch (err) {
-    //   const errMessage = err.message;
-    //   setErr(errMessage);
-    // }
-    const users = {
-      username: "password",
-    };
-    if (!state.username || !state.password) {
-      setErr("Missing username or Password");
-    } else if (!users[state.username]) {
-      // console.log("i am");
-      setErr("User does not exist");
-    } else if (users[state.username] !== state.password) {
-      setErr("Incorrect password");
-    } else {
+    try {
+      const succcess = await login(state.username, state.password);
       navigation.navigate("Main");
-      return;
+    } catch (err) {
+      const errMessage = err.message;
+
+      setErr(errMessage);
     }
+    // const users = {
+    //   username: "password",
+    // };
+    // if (!state.username || !state.password) {
+    //   setErr("Missing username or Password");
+    // } else if (!users[state.username]) {
+    //   // console.log("i am");
+    //   setErr("User does not exist");
+    // } else if (users[state.username] !== state.password) {
+    //   setErr("Incorrect password");
+    // } else {
+    //   navigation.navigate("Main");
+    //   return;
+    // }
     // console.log("here", err);
     // we can explicitly navigate to any screen of Main
     // navigation.navigate('AddContact')
