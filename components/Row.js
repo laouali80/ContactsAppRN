@@ -6,9 +6,9 @@ const styles = StyleSheet.create({
   row: { padding: 20 },
 });
 
-const Row = ({ props }) => {
+const Row = (props) => {
   // props: {name, phone}
-  // console.log("hereee", props)
+  // console.log("hereee", props);
   //
   return (
     <TouchableOpacity

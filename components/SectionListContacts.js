@@ -12,9 +12,10 @@ const SectionListContacts = ({ contacts, onSelectContact }) => {
     };
   }, {});
 
-  const renderItem = ({ item }) => (
-    <Row {...item} onSelectContact={onSelectContact} />
-  );
+  const renderItem = ({ item }) => {
+    // console.log("contacssss", { ...item });
+    return <Row {...item} onSelectContact={onSelectContact} />;
+  };
 
   const sections = Object.keys(contactsByLetter)
     .sort()
