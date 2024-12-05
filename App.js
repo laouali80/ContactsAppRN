@@ -8,6 +8,9 @@ import SwitchNavigation from "./navigations/SwitchNavigation";
 import StackNavigation from "./navigations/StackNavigation";
 import ComposingNavigation from "./navigations/ComposingNavigation";
 import TabNavigation from "./navigations/TabNavigation";
+import ReduxNavStack from "./navigations/ReduxNavStack";
+import { Provider } from "react-redux";
+import store from "./redux2024/store";
 
 export default function App() {
   const [contacts, setContacts] = useState([]);
@@ -59,7 +62,13 @@ export default function App() {
   // const AppNavigator = SwitchNavigation(addContact, contacts, loading);
   // const AppNavigator = StackNavigation(addContact, contacts, loading);
   // const AppNavigator = ComposingNavigation(addContact, contacts, loading);
-  const AppNavigator = TabNavigation(addContact, contacts, loading);
+  // const AppNavigator = TabNavigation(addContact, contacts, loading);
+  const AppNavigator = ReduxNavStack();
 
-  return <AppNavigator />;
+  return (
+    // Provider the app reload when the store state changes
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
+  );
 }

@@ -92,3 +92,5 @@ Ensure you have the following installed:
 - Documentation: [React Navigation - Getting Started](https://reactnavigation.org/docs/getting-started)
 
 npx expo start -c
+
+A "slice" is a collection of Redux reducer logic and actions for a single feature in your app, typically defined together in a single file.
