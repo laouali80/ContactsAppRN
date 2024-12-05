@@ -8,8 +8,13 @@ import {
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { connect } from "react-redux";
+import { addContact } from "../redux2024/reducers_or_slices/contactsSlice";
 
-const AddContactForm = ({ onSubmit }) => {
+// const AddContactForm = ({ onSubmit }) => {
+
+// for redux
+const AddContactForm = (props) => {
   const navigation = useNavigation();
   const [state, setState] = useState({
     name: "",
@@ -49,10 +54,11 @@ const AddContactForm = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    console.log(contacts);
     // onSubmit({name:state.name, phone:state.phone})
     // onSubmit({...state})
-    onSubmit(state);
+    // onSubmit(state);
+
+    props.addContact(state);
     navigation.navigate("ContactList");
   };
 
@@ -109,4 +115,5 @@ const styles = StyleSheet.create({
     margin: 50,
   },
 });
-export default AddContactForm;
+
+export default connect(null, { addContact: addContact })(AddContactForm);

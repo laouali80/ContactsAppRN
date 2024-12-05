@@ -11,9 +11,16 @@ import React, { useLayoutEffect } from "react";
 import SectionListContacts from "../components/SectionListContacts";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import { connect } from "react-redux";
+// import { useSelector } from "react-redux";
 
-const ContactListScreen = ({ route }) => {
+const ContactListScreenRedux = (props) => {
   const navigation = useNavigation();
+
+  const contacts = props.contacts;
+
+  // const contacts = useSelector((state) => state.contacts);
+  // console.log(contacts);
 
   // Use `useLayoutEffect` to set navigation options
   useLayoutEffect(() => {
@@ -26,9 +33,6 @@ const ContactListScreen = ({ route }) => {
     });
   }, [navigation]);
 
-  // /* 2. Get the param */ , addContact, contacts, loading
-  const { contacts, loading } = route.params;
-
   const toggleAddContact = () => {
     navigation.navigate("AddContact");
   };
@@ -36,37 +40,41 @@ const ContactListScreen = ({ route }) => {
   // console.log("hereeeeeeeeee", contacts);
   return (
     <>
-      {loading ? (
+      {/* {loading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <ActivityIndicator size="large" color="black" />
         </View>
-      ) : (
-        <SafeAreaView>
-          <View>
-            {/* for switch navigation  */}
-            {/* <Button title="Add contact" onPress={toggleAddContact} /> */}
-            <SectionListContacts
-              contacts={contacts}
-              onSelectContact={(contact) => {
-                navigation.navigate("ContactDetails", {
-                  phone: contact.phone,
-                  name: contact.name,
-                  contacts: contacts,
-                });
-              }}
-            />
-          </View>
-        </SafeAreaView>
-      )}
+      ) : ( */}
+      <SafeAreaView>
+        <View>
+          {/* for switch navigation  */}
+          {/* <Button title="Add contact" onPress={toggleAddContact} /> */}
+          <SectionListContacts
+            contacts={contacts}
+            onSelectContact={(contact) => {
+              navigation.navigate("ContactDetails", {
+                phone: contact.phone,
+                name: contact.name,
+                contacts: contacts,
+              });
+            }}
+          />
+        </View>
+      </SafeAreaView>
+      {/* )} */}
       <StatusBar style="auto" />
     </>
     // <Text>test</Text>
   );
 };
 
-export default ContactListScreen;
+const globalStateToProps = (state) => ({
+  contacts: state.contacts,
+});
+export default connect(globalStateToProps)(ContactListScreenRedux);
+// export default ContactListScreenRedux;
 
 const styles = StyleSheet.create({
   container: {
