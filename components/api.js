@@ -19,7 +19,9 @@ export const login = async (username, password) => {
   });
 
   if (response.ok) {
-    return true;
+    const { token } = await response.json();
+
+    return token;
   }
   const errMessage = await response.json();
   // console.log(errMessage);

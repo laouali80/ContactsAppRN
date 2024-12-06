@@ -1,11 +1,22 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 // const { createStore} = require('redux')
 import reducer from "./reducer";
 import { addContact } from "./actions";
-
+import thunk from "redux-thunk";
 // const DEFAULT_STATE = { user: {}, contacts: [] };
 
-const store = createStore(reducer);
+/*
+// thunk: an expression to delay a work
+const thunkMiddleware = (store) => (next) => (action) => {
+  if (typeof action === "function") {
+    action(store.dispatch);
+  } else {
+    next(action);
+  }
+};
+*/
+
+const store = createStore(reducer, applyMiddleware(thunk));
 
 /*
 // user
