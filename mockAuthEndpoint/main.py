@@ -52,7 +52,7 @@ async def login(loginUser: User):
             detail="Incorrect password"
         )
 
-    return {"response": "success"}
+    return {"token": "thisIsARealToken"}
 
 @app.get('/')
 def test():

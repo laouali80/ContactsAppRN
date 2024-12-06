@@ -7,20 +7,25 @@ import {
   SafeAreaView,
   Button,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import SectionListContacts from "../components/SectionListContacts";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 // import { useSelector } from "react-redux";
+import Icon from "react-native-vector-icons/Ionicons";
+import { fetchContacts } from "../redux2024/reducers_or_slices/contactsSlice";
 
 const ContactListScreenRedux = (props) => {
   const navigation = useNavigation();
 
   const contacts = props.contacts;
 
-  // const contacts = useSelector((state) => state.contacts);
-  // console.log(contacts);
+  useEffect(() => {
+    if (props.loading) {
+      props.getContacts();
+    }
+  }, [props.loading, contacts]);
 
   // Use `useLayoutEffect` to set navigation options
   useLayoutEffect(() => {
@@ -37,33 +42,32 @@ const ContactListScreenRedux = (props) => {
     navigation.navigate("AddContact");
   };
 
+  // <Icon name="refresh-outline" />;
   // console.log("hereeeeeeeeee", contacts);
   return (
     <>
-      {/* {loading ? (
+      {props.loading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <ActivityIndicator size="large" color="black" />
         </View>
-      ) : ( */}
-      <SafeAreaView>
-        <View>
-          {/* for switch navigation  */}
-          {/* <Button title="Add contact" onPress={toggleAddContact} /> */}
-          <SectionListContacts
-            contacts={contacts}
-            onSelectContact={(contact) => {
-              navigation.navigate("ContactDetails", {
-                phone: contact.phone,
-                name: contact.name,
-                contacts: contacts,
-              });
-            }}
-          />
-        </View>
-      </SafeAreaView>
-      {/* )} */}
+      ) : (
+        <SafeAreaView>
+          <View>
+            <SectionListContacts
+              contacts={contacts}
+              onSelectContact={(contact) => {
+                navigation.navigate("ContactDetails", {
+                  phone: contact.phone,
+                  name: contact.name,
+                  contacts: contacts,
+                });
+              }}
+            />
+          </View>
+        </SafeAreaView>
+      )}
       <StatusBar style="auto" />
     </>
     // <Text>test</Text>
@@ -71,16 +75,9 @@ const ContactListScreenRedux = (props) => {
 };
 
 const globalStateToProps = (state) => ({
-  contacts: state.contacts,
+  contacts: state.contacts.contactsList,
+  loading: state.contacts.loading,
 });
-export default connect(globalStateToProps)(ContactListScreenRedux);
-// export default ContactListScreenRedux;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default connect(globalStateToProps, { getContacts: fetchContacts })(
+  ContactListScreenRedux
+);

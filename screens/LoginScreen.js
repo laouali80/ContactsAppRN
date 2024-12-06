@@ -1,16 +1,18 @@
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { login } from "../components/api";
+// import { login } from "../components/api";
+import { connect } from "react-redux";
+import { logInUser } from "../redux2024/reducers_or_slices/userSlice";
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
   const navigation = useNavigation();
 
   const [state, setState] = useState({
     username: "",
     password: "",
   });
-  const [err, setErr] = useState("");
+  // const [err, setErr] = useState("");
 
   const handleUpdUsename = (username) => {
     setState((prevState) => ({ ...prevState, username }));
@@ -21,15 +23,16 @@ const LoginScreen = () => {
     // setState({ ...state, username });
   };
 
-  const loginValidation = async () => {
-    try {
-      const succcess = await login(state.username, state.password);
+  useEffect(() => {
+    // Equivalent to componentWillReceiveProps
+    if (props.token) {
       navigation.navigate("Main");
-    } catch (err) {
-      const errMessage = err.message;
-
-      setErr(errMessage);
     }
+  }, [props.token, navigation]); // Dependency array
+
+  const loginValidation = async () => {
+    props.logInUser(state);
+
     // const users = {
     //   username: "password",
     // };
@@ -51,7 +54,7 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.error}>{err}</Text>
+      <Text style={styles.error}>{props.err}</Text>
       <TextInput
         placeholder="username"
         autoCapitalize="none"
@@ -99,4 +102,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const mapStateToProps = (state) => ({
+  err: state.user.loginErr,
+  token: state.user.token,
+});
+
+export default connect(mapStateToProps, { logInUser })(LoginScreen);
+
+// export default LoginScreen;

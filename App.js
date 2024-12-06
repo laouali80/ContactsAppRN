@@ -11,6 +11,7 @@ import TabNavigation from "./navigations/TabNavigation";
 import ReduxNavStack from "./navigations/ReduxNavStack";
 import { Provider } from "react-redux";
 import store from "./redux2024/store";
+import ReduxCompNav from "./navigations/ReduxCompNav";
 
 export default function App() {
   const [contacts, setContacts] = useState([]);
@@ -63,10 +64,12 @@ export default function App() {
   // const AppNavigator = StackNavigation(addContact, contacts, loading);
   // const AppNavigator = ComposingNavigation(addContact, contacts, loading);
   // const AppNavigator = TabNavigation(addContact, contacts, loading);
-  const AppNavigator = ReduxNavStack();
+  // const AppNavigator = ReduxNavStack();
+  const AppNavigator = ReduxCompNav();
 
   return (
-    // Provider the app reload when the store state changes
+    // Provider reload the app  when the store state changes
+    // And it gives children access to our redux store
     <Provider store={store}>
       <AppNavigator />
     </Provider>
