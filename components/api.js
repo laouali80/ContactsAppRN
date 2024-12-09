@@ -5,10 +5,16 @@ const processContact = (contact) => ({
 
 export const fetchUsers = async () => {
   const response = await fetch("https://randomuser.me/api/?results=50&nat=us");
-  const { results } = await response.json();
-  // console.log(results.map(processContact));
-  //   return results.map(contact => processContact(contact));
-  return results.map(processContact);
+  if (response.ok) {
+    const { results } = await response.json();
+    // console.log(results.map(processContact));
+    //   return results.map(contact => processContact(contact));
+    return results.map(processContact);
+  }
+
+  const errMessage = await response.text();
+  // console.log(errMessage);
+  throw new Error(errMessage.detail);
 };
 
 export const login = async (username, password) => {
