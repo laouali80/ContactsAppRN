@@ -10,8 +10,9 @@ import ComposingNavigation from "./navigations/ComposingNavigation";
 import TabNavigation from "./navigations/TabNavigation";
 import ReduxNavStack from "./navigations/ReduxNavStack";
 import { Provider } from "react-redux";
-import store from "./redux2024/store";
+import { store, persistor } from "./redux2024/store";
 import ReduxCompNav from "./navigations/ReduxCompNav";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
   const [contacts, setContacts] = useState([]);
@@ -71,7 +72,10 @@ export default function App() {
     // Provider reload the app  when the store state changes
     // And it gives children access to our redux store
     <Provider store={store}>
-      <AppNavigator />
+      {/* PersistGate is to rehydrate the app when reloading again with the previous store state */}
+      <PersistGate loading={null} persistor={persistor}>
+        <AppNavigator />
+      </PersistGate>
     </Provider>
   );
 }

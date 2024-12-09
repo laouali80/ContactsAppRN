@@ -94,3 +94,6 @@ Ensure you have the following installed:
 npx expo start -c
 
 A "slice" is a collection of Redux reducer logic and actions for a single feature in your app, typically defined together in a single file.
+
+node --version
+v22.11.0

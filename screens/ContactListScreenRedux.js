@@ -46,7 +46,13 @@ const ContactListScreenRedux = (props) => {
   // console.log("hereeeeeeeeee", contacts);
   return (
     <>
-      {props.loading ? (
+      {props.error ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Icon name="refresh-outline" size={50} color="black" />
+        </View>
+      ) : props.loading ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -77,6 +83,7 @@ const ContactListScreenRedux = (props) => {
 const globalStateToProps = (state) => ({
   contacts: state.contacts.contactsList,
   loading: state.contacts.loading,
+  error: state.contacts.err,
 });
 export default connect(globalStateToProps, { getContacts: fetchContacts })(
   ContactListScreenRedux

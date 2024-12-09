@@ -4,6 +4,7 @@ import { fetchUsers } from "../../components/api";
 const initialState = {
   contactsList: [],
   loading: true,
+  Err: null,
 };
 
 // Contacts slice
@@ -20,6 +21,7 @@ const contactsSlice = createSlice({
     builder
       .addCase(fetchContacts.pending, (state) => {
         state.loading = true;
+        state.Err = null; // Clear any previous error
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contactsList = action.payload.contacts;
@@ -27,7 +29,7 @@ const contactsSlice = createSlice({
         state.Err = null; // Clear any previous error
       })
       .addCase(fetchContacts.rejected, (state, action) => {
-        // console.log("here.....", action.payload);
+        console.log("here.....", action.payload);
         state.status = action.payload.status;
         state.Err = action.payload.err;
       });
@@ -37,13 +39,13 @@ const contactsSlice = createSlice({
 export const fetchContacts = createAsyncThunk("fetchContacts", async () => {
   try {
     const contacts = await fetchUsers();
-    // console.log(response);
+    // console.log("here  ", contacts);
     return {
       contacts: contacts,
     };
   } catch (err) {
+    // console.log(typeof err.message);
     return {
-      loading: "rejected",
       err: err.message,
     };
   }
