@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 // import { useSelector } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import { fetchContacts } from "../redux2024/reducers_or_slices/contactsSlice";
+import { persistor } from "../redux2024/store";
 
 const ContactListScreenRedux = (props) => {
   const navigation = useNavigation();
@@ -25,7 +26,7 @@ const ContactListScreenRedux = (props) => {
     if (props.status === "pending") {
       props.getContacts();
     }
-  }, [props.status, contacts]);
+  }, [props.status, contacts, navigation]);
 
   // Use `useLayoutEffect` to set navigation options
   useLayoutEffect(() => {
@@ -35,6 +36,11 @@ const ContactListScreenRedux = (props) => {
           <Text style={{ color: "#a41034" }}>Add</Text>
         </Pressable>
       ),
+      headerLeft: () => (
+        <Pressable onPress={handleLogout} style={{ padding: 5 }}>
+          <Text style={{ color: "#a41034" }}>Logout</Text>
+        </Pressable>
+      ),
     });
   }, [navigation]);
 
@@ -42,8 +48,17 @@ const ContactListScreenRedux = (props) => {
     navigation.navigate("AddContact");
   };
 
+  const handleLogout = async () => {
+    await persistor.purge(); // Clear Redux-persist storage
+    navigation.navigate("Login");
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: "Login" }], // Redirect to login screen
+    // });
+  };
+
   // <Icon name="refresh-outline" />;
-  console.log("hereeeeeeeeee", contacts);
+  // console.log("hereeeeeeeeee", contacts);
   return (
     <>
       {props.status === "rejected" ? (

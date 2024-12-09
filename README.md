@@ -1,3 +1,56 @@
+# React Native Contact App
+
+This application covers the basic aspects and concepts of React Native. It includes features such as:
+
+- **User Authentication**: Login and logout functionality.
+- **Contact Management**:
+  - Display a list of contacts.
+  - Add new contacts.
+  - View details of a contact.
+  - Navigate to a random contact.
+- These functionalities are implemented using React components like navigation (Switch, Stack, Composing, Tab), data fetching, Redux, and Redux Persist for state management.
+
+---
+
+## Requirements
+
+To run this project, ensure you have the following:
+
+- Node.js version **22.11.0**  
+  Check your version by running:
+  ```bash
+  node --version
+  ```
+
+---
+
+## Getting Started
+
+Follow these steps to set up and run the project:
+
+1. Clone the repository and navigate to the project directory:
+
+   ```bash
+   cd ContactsApp
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Run the app:
+   ```bash
+   npx expo start -c
+   ```
+   If you're on a private network, use:
+   ```bash
+   npx expo start -c --tunnel
+   ```
+
+---
+
 # MockFastAPI Server
 
 ## Prerequisites
@@ -91,11 +144,28 @@ Ensure you have the following installed:
   ```
 - Documentation: [React Navigation - Getting Started](https://reactnavigation.org/docs/getting-started)
 
-npx expo start -c
+For more information on React Native and component design patterns, check out this guide:  
+[**Dumb Components and Smart Components**](https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43)
+
+---
 
 A "slice" is a collection of Redux reducer logic and actions for a single feature in your app, typically defined together in a single file.
 
-node --version
-v22.11.0
-
+ressource
 https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
+
+## Screenshots
+
+![Login Screen](./assets/images/contact1.PNG)  
+_Login screen showcasing user authentication._
+
+![Contact List Screen](./assets/images/contact2.PNG)  
+_Contact list with options to view ,add contacts or logout._
+
+![Add Contact Screen](./assets/images/contact3.PNG)  
+_Add Contact._
+
+![View Contact Detail Screen](./assets/images/contact4.PNG)  
+_View Contact Detail Screen._
+
+---
