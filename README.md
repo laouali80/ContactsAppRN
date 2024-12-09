@@ -97,3 +97,5 @@ A "slice" is a collection of Redux reducer logic and actions for a single featur
 
 node --version
 v22.11.0
+
+https://medium.com/@thejasonfile/dumb-components-and-smart-components-e7b33a698d43
