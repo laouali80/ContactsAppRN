@@ -24,7 +24,6 @@ const ReduxCompNav = () => {
         screen: ContactListScreenRedux,
         options: {
           headerTitle: "Contacts",
-          headerLeft: null,
         },
       },
       ContactDetails: {
