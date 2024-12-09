@@ -3,7 +3,7 @@ import { fetchUsers } from "../../components/api";
 
 const initialState = {
   contactsList: [],
-  loading: true,
+  status: "pending",
 };
 
 // Contacts slice
@@ -19,35 +19,39 @@ const contactsSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchContacts.pending, (state) => {
-        state.loading = true;
+        state.status = "pending";
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contactsList = action.payload.contacts;
-        state.loading = false;
+        state.status = "success";
         state.Err = null; // Clear any previous error
       })
       .addCase(fetchContacts.rejected, (state, action) => {
-        // console.log("here.....", action.payload);
+        console.log("Payload:", action.payload);
+        console.log("Error:", action.error);
         state.status = action.payload.status;
         state.Err = action.payload.err;
       });
   },
 });
 
-export const fetchContacts = createAsyncThunk("fetchContacts", async () => {
-  try {
-    const contacts = await fetchUsers();
-    // console.log(response);
-    return {
-      contacts: contacts,
-    };
-  } catch (err) {
-    return {
-      loading: "rejected",
-      err: err.message,
-    };
+export const fetchContacts = createAsyncThunk(
+  "fetchContacts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const contacts = await fetchUsers();
+      // console.log(response);
+      return {
+        contacts: contacts,
+      };
+    } catch (err) {
+      return rejectWithValue({
+        status: "rejected",
+        err: err.message,
+      });
+    }
   }
-});
+);
 
 // exporting the actions
 export const { addContact } = contactsSlice.actions;
