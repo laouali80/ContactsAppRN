@@ -18,20 +18,20 @@ export default function App() {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const userContacts = await fetchUsers();
+  // useEffect(() => {
+  //   const getUsers = async () => {
+  //     try {
+  //       const userContacts = await fetchUsers();
 
-        setContacts(userContacts);
-      } catch (error) {
-        console.error("Error fetching contacts:", error);
-      } finally {
-        setLoading(false); // Stop loading once the fetch is complete
-      }
-    };
-    getUsers();
-  }, []);
+  //       setContacts(userContacts);
+  //     } catch (error) {
+  //       console.error("Error fetching contacts:", error);
+  //     } finally {
+  //       setLoading(false); // Stop loading once the fetch is complete
+  //     }
+  //   };
+  //   getUsers();
+  // }, []);
 
   const addContact = (newContact) => {
     setContacts((prevContacts) => [...prevContacts, newContact]);

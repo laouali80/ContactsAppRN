@@ -22,10 +22,10 @@ const ContactListScreenRedux = (props) => {
   const contacts = props.contacts;
 
   useEffect(() => {
-    if (props.loading) {
+    if (props.status === "pending") {
       props.getContacts();
     }
-  }, [props.loading, contacts]);
+  }, [props.status, contacts]);
 
   // Use `useLayoutEffect` to set navigation options
   useLayoutEffect(() => {
@@ -43,16 +43,22 @@ const ContactListScreenRedux = (props) => {
   };
 
   // <Icon name="refresh-outline" />;
-  // console.log("hereeeeeeeeee", contacts);
+  console.log("hereeeeeeeeee", contacts);
   return (
     <>
-      {props.error ? (
+      {props.status === "rejected" ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Icon name="refresh-outline" size={50} color="black" />
+          <Pressable
+            onPress={props.getContacts}
+            style={{ alignItems: "center" }}
+          >
+            <Icon name="refresh-outline" size={50} color="black" />
+            <Text>Try Again</Text>
+          </Pressable>
         </View>
-      ) : props.loading ? (
+      ) : props.status === "pending" ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -82,8 +88,7 @@ const ContactListScreenRedux = (props) => {
 
 const globalStateToProps = (state) => ({
   contacts: state.contacts.contactsList,
-  loading: state.contacts.loading,
-  error: state.contacts.err,
+  status: state.contacts.status,
 });
 export default connect(globalStateToProps, { getContacts: fetchContacts })(
   ContactListScreenRedux
